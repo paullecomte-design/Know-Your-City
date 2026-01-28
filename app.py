@@ -97,7 +97,7 @@ with col2:
     bouton_lancer = st.button("Lancer la recherche 🚀", use_container_width=True, type="primary")
 
 # ==========================================
-# 🚀 LOGIQUE D'EXÉCUTION CORRIGÉE
+# 🚀 LOGIQUE D'EXÉCUTION
 # ==========================================
 
 if bouton_lancer:
@@ -107,4 +107,22 @@ if bouton_lancer:
         st.warning("⚠️ Merci d'écrire le nom d'une ville.")
     else:
         try:
-            genai.configure
+            genai.configure(api_key=api_key)
+            
+            # Définition du prompt complet
+            if "Restos" in mode:
+                full_prompt = PROMPT_FOOD + f"\n\nMAINTENANT, applique ce rôle pour la ville de : {ville}"
+            else:
+                full_prompt = PROMPT_SOCIAL + f"\n\nMAINTENANT, applique ce rôle pour la ville de : {ville}"
+            
+            with st.spinner(f"🕵️‍♂️ L'IA analyse {ville}..."):
+                # Utilisation du modèle standard gemini-pro
+                model = genai.GenerativeModel('gemini-pro')
+                response = model.generate_content(full_prompt)
+            
+            st.success("C'est trouvé !")
+            st.markdown("---")
+            st.markdown(response.text)
+            
+        except Exception as e:
+            st.error(f"Une erreur est survenue : {e}")
