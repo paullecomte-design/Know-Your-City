@@ -135,8 +135,7 @@ if bouton_lancer:
             
             # 3. Appel à l'IA (avec animation de chargement)
             with st.spinner(f"🕵️‍♂️ L'IA analyse {ville} en profondeur..."):
-                model = genai.GenerativeModel('gemini-1.5-flash', system_instruction=system_instruction)
-                response = model.generate_content(user_message)
+               model = genai.GenerativeModel('gemini-pro', system_instruction=system_instruction)
             
             # 4. Affichage du résultat
             st.success("Analyse terminée !")
